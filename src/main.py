@@ -12,7 +12,7 @@ from config import Config
 class TFC():
 
   def __init__(self):
-    self.closed = False;
+    self.closed = False
     self.command = str()
     self.args = {}
     self.command_history = list()
