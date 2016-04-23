@@ -3,18 +3,18 @@
 
 Tiny FTP Client is an easy to use command line ftp conexion tool.
 
-TFC allows to control every aspect of an FTP server from your command line.
+TFC allows you to control every aspect of an FTP server from your command line.
 
 
 ### Commands:
 
 1. push
 2. pull
-3. erase
-4. connect
-5. close
-6. dir
-7. clear
+3. erase (Work In progress)
+4. connect (Work In progress)
+5. close (Work In progress)
+6. dir (Work In progress)
+7. clear (Work In progress)
 
 | Commands | Arg       | Action                                                     |
 |----------|:---------:|-----------------------------------------------------------:|
