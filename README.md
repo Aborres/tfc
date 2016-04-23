@@ -36,3 +36,25 @@ TFC allows to control every aspect of an FTP server from your command line.
 |          | -h (arg)  | Shows help about this command                              |
 |          | -w (arg)  | Shows welcome to TFC system :)                             |
 |          | -i (arg)  | Shows info about the system                                |
+
+### How to use:
+
+Install binary version (Work In progress)
+
+Or
+
+Copy has much times has you want the raw Python client in every folder you want to work with
+
+###Getting Started:
+
+tfc config -u (USER)
+tfc config -s (SERVER)
+tfc config -p (PASSWORD)
+
+Defaults folders are optional options only for easy use.
+
+(tfc.py in raw Python versions)
+
+Or
+
+Edit config/config.ini to change full configuration
