@@ -1,4 +1,4 @@
-![Logo](http://i64.tinypic.com/15wexlk.png) #TFC (ALPHA)
+![Logo](http://i64.tinypic.com/15wexlk.png) # TFC (ALPHA)
 
 Tiny FTP Client is an easy to use command line ftp conexion tool.
 
