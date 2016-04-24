@@ -38,3 +38,36 @@ def CheckOldFolder(path):
 
 def CreateFolder(path):
   os.mkdir(path)
+
+def FTPRemoveTree(ftp, path):
+  folders = ftp.pwd()
+  print(folders)
+  try:
+    files = ftp.nlst(path)
+  except Exception, e:
+    print('Failed to remove {0}: {1}'.format(path, e))
+    return
+
+  for f in files:
+    if os.path.split(f)[1] in ('.', '..'): continue
+
+    try:
+      ftp.cwd(f)
+      ftp.cwd(folders)
+      self.__ftpRemoveTree(ftp, f)
+    except Exception, e:
+      ftp.delete(path + '/' + f)
+
+  try:
+    ftp.rmd(path)
+  except Exception, e:
+    print('Failed to remove {0}: {1}'.format(path, e))
+
+def __pushFile(self, ftp, f, file):
+  try:
+    fb = open(file, 'rb')
+    ftp.storbinary('STOR %s' % f, fb)
+    fb.close()
+    print("tfc " + file + " uploaded")
+  except Exception, e:
+    print("File: " + file + " not found")

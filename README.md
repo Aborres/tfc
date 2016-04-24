@@ -10,32 +10,34 @@ TFC allows you to control every aspect of an FTP server from your command line.
 
 1. push
 2. pull
-3. erase (Work In progress)
-4. connect (Work In progress)
-5. close (Work In progress)
-6. dir (Work In progress)
-7. clear (Work In progress)
+3. dir 
 
-| Commands | Arg       | Action                                                     |
-|----------|:---------:|-----------------------------------------------------------:|
-| push     |           | Uploads default folder                                     |
-|          | -f  (arg) | Uploads an especific file or folder                        |
-|          | -e  (arg) | Uploads default folder erasing previous files              |
-|          | -ef (arg) | Uploads an especific file or folder erasing previous files |
-|----------|-----------|------------------------------------------------------------|
-| pull     |           | Downloads all content                                      |
-|          | -f (arg)  | Downloads an especific folder                              |
-|----------|-----------|------------------------------------------------------------|
-| config   |           | Shows all configuration info                               |
-|          | -u (arg)  | Sets Default user for FTP conexion                         |
-|          | -s (arg)  | Sets Default server for FTP conexion                       |
-|          | -p (arg)  | Sets Default port for FTP conexion                         |
-|          | -ps (arg) | Sets Default password for FTP conexion                     |
-|          | -uf (arg) | Sets Default upload folder for FTP conexion                |
-|          | -df (arg) | Sets Default download folder for FTP conexion              |
-|          | -h (arg)  | Shows help about this command                              |
-|          | -w (arg)  | Shows welcome to TFC system :)                             |
-|          | -i (arg)  | Shows info about the system                                |
+| Commands | Arg             | Action                                                     |
+|----------|:---------------:|-----------------------------------------------------------:|
+| push     |                 | Uploads default folder                                     |
+|          | -f  (arg)       | Uploads an especific file or folder                        |
+|          | -e  (arg)       | Uploads default folder erasing previous files              |
+|          | -ef (arg)       | Uploads an especific file or folder erasing previous files |
+|----------|-----------------|------------------------------------------------------------|
+| pull     |                 | Downloads all content                                      |
+|          | -f (arg)        | Downloads an especific folder                              |
+|----------|-----------------|------------------------------------------------------------|
+| config   |                 | Shows all configuration info                               |
+|          | -u (arg)        | Sets Default user for FTP conexion                         |
+|          | -s (arg)        | Sets Default server for FTP conexion                       |
+|          | -p (arg)        | Sets Default port for FTP conexion                         |
+|          | -ps (arg)       | Sets Default password for FTP conexion                     |
+|          | -uf (arg)       | Sets Default upload folder for FTP conexion                |
+|          | -df (arg)       | Sets Default download folder for FTP conexion              |
+|          | -h (arg)        | Shows help about this command                              |
+|          | -w (arg)        | Shows welcome to TFC system :)                             |
+|          | -i (arg)        | Shows info about the system                                |
+|----------|-----------------|------------------------------------------------------------|
+| dir      |                 | Shows content in FTP server                                |
+|          | -mkdir (arg)    | Creates a folder in arg route                              |
+|          | -ls (arg)       | Lists content of arg folder                                |
+|          | -e (arg)        | Erases arg file                                            |
+|          | -ef (arg)       | Erases arg folder and all it's content                     |
 
 ### How to use:
 

@@ -7,6 +7,7 @@
 import sys
 from push import Push
 from pull import Pull
+from dir import Dir
 from config import Config
 
 class TFC():
@@ -20,6 +21,7 @@ class TFC():
     self.valid_commands["push"] = Push()
     self.valid_commands["config"] = Config()
     self.valid_commands["pull"] = Pull()
+    self.valid_commands["dir"] = Dir()
 
   def checkCommand(self):
     for command in self.valid_commands:

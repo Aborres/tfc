@@ -17,6 +17,12 @@ class Push(Command):
 
   def uploadFile(self, file):
     self.connect()
+    if (os.path.isfile(file) != True):
+      try:
+        self.ftp.mkd(file)
+      except Exception, e:
+        print("tfc Updating folder")
+      self.ftp.cwd(file)
     self.__uploadData(self.ftp, file, False)
     self.disconnect()
 
@@ -48,11 +54,11 @@ class Push(Command):
 
         if (os.path.isfile(ftp_path)):
           print("\nUploading: " + ftp_path + "\n")
-          self.__pushFile(ftp, ftp_path)
+          self.__pushFile(ftp, f, ftp_path)
         elif (os.path.isdir(ftp_path)):
           if (erase):
             print("ERASING: " + f)
-            self.__ftpRemoveTree(ftp, f)
+            self.FTPRemoveTree(ftp, f)
           try:
             ftp.mkd(f)
           except Exception, e:
@@ -62,31 +68,6 @@ class Push(Command):
           ftp.cwd("../")
     except Exception, e:
       self.__pushFile(ftp, path, path)
-
-  #Recursively erasing
-  def __ftpRemoveTree(self, ftp, path):
-    folders = ftp.pwd()
-
-    try:
-      files = ftp.nlst(path)
-    except Exception, e:
-      print('Failed to remove {0}: {1}'.format(path, e))
-      return
-
-    for f in files:
-      if os.path.split(f)[1] in ('.', '..'): continue
-
-      try:
-        ftp.cwd(f)
-        ftp.cwd(folders)
-        self.__ftpRemoveTree(ftp, f)
-      except Exception, e:
-        ftp.delete(path + '/' + f)
-
-    try:
-      ftp.rmd(path)
-    except Exception, e:
-      print('Failed to remove {0}: {1}'.format(path, e))
 
   def __pushFile(self, ftp, f, file):
     try:

@@ -88,19 +88,23 @@ server_folder ="""
 
   def connect(self):
     self.readConfig()
-    self.ftp = FTP(self.server)
-    self.ftp.login(self.user, self.password)
+    try:
+      self.ftp = FTP(self.server)
+      self.ftp.login(self.user, self.password)
+      return True
+    except Exception, e:
+      print("ftc Unable to log in...")
+      return False
 
   def showWelcome(self):
-    self.connect()
-    print("\n" + self.ftp.getwelcome() + "\n")
-    self.disconnect()
+    if(self.connect()):
+      print("\n" + self.ftp.getwelcome() + "\n")
+      self.disconnect()
     
   def showDir(self):
-    self.connect()
-    self.ftp.dir()
-    self.disconnect()
-
+    if(self.connect()):
+      self.ftp.dir()
+      self.disconnect()
 
   def disconnect(self):
     self.ftp.quit()
