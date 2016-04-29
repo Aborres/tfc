@@ -15,6 +15,7 @@ class Dir(Command):
     self.commands_function["-ls"] = self.listDirectory
     self.commands_function["-e"] = self.erase
     self.commands_function["-ef"] = self.eraseFolder
+    self.commands_function["-p"] = self.purge
 
   def default(self):
     self.showDir()
@@ -47,3 +48,12 @@ class Dir(Command):
     if(self.connect()):
       FTPRemoveTree(self.ftp, arg)
       self.disconnect()
+
+  #TODO
+  def purge(self, arg):
+    if(self.connect()):
+      try:
+        FTPRemoveTree(self.ftp, "")
+      except Exception, e:
+        print("tfc can not purgue server")
+      self.disconnect()    
