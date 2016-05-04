@@ -4,6 +4,7 @@
   Jose Manuel Naranjo Temprano <jmnaranjotemprano@gmail.com>
   April 2016
 """
+import tempfile
 import shutil
 import errno
 import os
@@ -31,6 +32,13 @@ def CheckFolder(path):
 
   return exists
 
+def CreateFile(path):
+  if(CheckFolder(path) == False):
+    f = open(path, "wb")
+    f.close()
+  else:
+    print("File " + path + " was already there")
+
 def CheckOldFolder(path):
   if (CheckFolder(path)):
     print("\nRemoving Old Folder..\n")
@@ -38,6 +46,12 @@ def CheckOldFolder(path):
 
 def CreateFolder(path):
   os.mkdir(path)
+
+def CreateHiddenFolder(folder_name):
+  path = os.getcwd()
+  p = tempfile.mkdtemp(dir=path)
+  f = p.split(path + "/")[1]
+  os.rename(f, folder_name)
 
 def FTPRemoveTree(ftp, path):
   folders = ftp.pwd()

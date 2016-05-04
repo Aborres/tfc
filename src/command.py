@@ -4,6 +4,7 @@
   Jose Manuel Naranjo Temprano <jmnaranjotemprano@gmail.com>
   April 2016
 """
+import sys
 import ConfigParser
 import os
 from ftplib import FTP
@@ -24,14 +25,18 @@ class Command:
     self.dest = ""
     self.assets = ""
     self.ftp = FTP()
-    self.folder = "config"
-    self.file = "config.ini"
-    self.path = self.folder + os.path.sep + self.file
-    self.place_holder_file = """[Server]
+    self.folder = ".tfc"
+    self.config_file = "config.ini"
+    self.config_path = self.folder + os.path.sep + self.config_file
+    self.config_file_content = """[Server]
 server =
 port =
 user =
 password =
+
+[FTP Dir]
+current_dir =
+last_check_time =
 
 [Local]
 copy_dir =
@@ -45,6 +50,10 @@ server_folder ="""
     if command in self.commands_function:
       return True
     return False
+
+  def checkNoArg(self, file):
+    if(file):
+      self.argError(file)
 
   def error(self, command, arg):
     print(self.name + " command " + command + " " + arg + "not found" )
@@ -63,22 +72,28 @@ server_folder ="""
 
   def checkCreateFolder(self):
     if (CheckFolder(self.folder) == False):
-      CreateFolder(self.folder)
-      fb = open(self.path, 'w')
-      fb.write(self.place_holder_file)
+      CreateHiddenFolder(self.folder)
+      fb = open(self.config_path, 'w')
+      fb.write(self.config_file_content)
       fb.close()
+    else:
+      print("tfc already exists in this folder")
 
   def readConfig(self):
-    self.checkCreateFolder()
-    config = ConfigParser.ConfigParser()
-    config.read(self.path)
-    self.server = config.get('Server', 'server')
-    self.port = config.get('Server', 'port')
-    self.user = config.get('Server', 'user')
-    self.password = config.get('Server', 'password')
-    self.copy_dir = config.get('Local', 'copy_dir')
-    self.dest = config.get('Local', 'dest')
-    self.server_folder = config.get('Local', 'server_folder')
+    if(CheckFolder(self.folder) == True):
+      config = ConfigParser.ConfigParser()
+      config.read(self.config_path)
+      self.server = config.get('Server', 'server')
+      self.port = config.get('Server', 'port')
+      self.user = config.get('Server', 'user')
+      self.password = config.get('Server', 'password')
+      self.copy_dir = config.get('Local', 'copy_dir')
+      self.dest = config.get('Local', 'dest')
+      self.server_folder = config.get('Local', 'server_folder')
+      return True
+    else:
+      print("tfc not initialized in this folder")
+      return False
 
   def default(self):
     print("Default")
@@ -87,14 +102,14 @@ server_folder ="""
     print("Help")
 
   def connect(self):
-    self.readConfig()
-    try:
-      self.ftp = FTP(self.server)
-      self.ftp.login(self.user, self.password)
-      return True
-    except Exception, e:
-      print("ftc Unable to log in...")
-      return False
+    if(self.readConfig()):
+      try:
+        self.ftp = FTP(self.server)
+        self.ftp.login(self.user, self.password)
+        return True
+      except Exception, e:
+        print("ftc Unable to log in...")
+        return False
 
   def showWelcome(self):
     if(self.connect()):
@@ -108,3 +123,7 @@ server_folder ="""
 
   def disconnect(self):
     self.ftp.quit()
+
+  def argError(self, file):
+    print("tfc unexpected argument: " + str(file))
+    sys.exit(-1)

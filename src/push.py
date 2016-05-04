@@ -12,34 +12,47 @@ class Push(Command):
   def __init__(self):
     Command.__init__(self)
     self.commands_function["-f"] = self.uploadFile
+    self.commands_function["-file"] = self.uploadFile
     self.commands_function["-e"] = self.eraseDefault
+    self.commands_function["-erase"] = self.eraseDefault
     self.commands_function["-ef"] = self.eraseUploadFile
+    self.commands_function["-erasefile"] = self.eraseUploadFile
 
-  def uploadFile(self, file):
-    self.connect()
-    if (os.path.isfile(file) != True):
-      try:
-        self.ftp.mkd(file)
-      except Exception, e:
-        print("tfc Updating folder")
-      self.ftp.cwd(file)
-    self.__uploadData(self.ftp, file, False)
-    self.disconnect()
+  def uploadFile(self, files):
+    if(self.connect()):
+      for file in files:
+        if (os.path.isfile(file) != True):
+          try:
+            self.ftp.mkd(file)
+          except Exception, e:
+            print("tfc Updating folder")
+          self.ftp.cwd(file)
+        self.__uploadData(self.ftp, file, False)
+      self.disconnect()
 
   def eraseDefault(self, file):
-    self.connect()
-    self.__uploadData(self.ftp, self.copy_dir, True)
-    self.disconnect()
+    self.checkNoArg(file)
+      
+    if(self.connect()):
+      self.__uploadData(self.ftp, self.copy_dir, True)
+      self.disconnect()
 
   def eraseUploadFile(self, file):
-    self.connect()
-    self.__uploadData(self.ftp, file, True)
-    self.disconnect()
+    if(self.connect()):
+      for file in files:
+        if (os.path.isfile(file) != True):
+          try:
+            self.ftp.mkd(file)
+          except Exception, e:
+            print("tfc Updating folder")
+          self.ftp.cwd(file)
+        self.__uploadData(self.ftp, file, True)
+      self.disconnect()
 
   def default(self):
-    self.connect()
-    self.__uploadData(self.ftp, self.copy_dir, False)
-    self.disconnect()
+    if(self.connect()):
+      self.__uploadData(self.ftp, self.copy_dir, False)
+      self.disconnect()
 
   def __uploadData(self, ftp, path, erase):
     try:

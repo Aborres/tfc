@@ -13,15 +13,16 @@ class Pull(Command):
   def __init__(self):
     Command.__init__(self)
     self.commands_function["-f"] = self.pullFile
+    self.commands_function["-file"] = self.pullFile
 
   def pullFile(self, file):
     print("Full")
 
   def default(self):
-    self.connect()
-    self.__checkFolder()
-    self.__downloadData(self.ftp, "", self.dest)
-    self.disconnect()
+    if(self.connect()):
+      self.__checkFolder()
+      self.__downloadData(self.ftp, "", self.dest)
+      self.disconnect()
 
   def __downloadData(self, ftp, server_path, path):
     print("\nDonwloading from: " + server_path)
