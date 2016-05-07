@@ -7,6 +7,8 @@
 import os
 from command import Command
 from utils import *
+from db import *
+from hash import *
 
 class Pull(Command):
 
@@ -15,13 +17,18 @@ class Pull(Command):
     self.commands_function["-f"] = self.pullFile
     self.commands_function["-file"] = self.pullFile
 
-  def pullFile(self, file):
-    print("Full")
+  def pullFile(self, files):
+    if(self.connect()):
+      self.__checkFolder()
+      for file in files:
+        self.__checkFolder()
+        self.__downloadData(self.ftp, file, "")
+      self.disconnect()
 
   def default(self):
     if(self.connect()):
       self.__checkFolder()
-      self.__downloadData(self.ftp, "", self.dest)
+      self.__downloadData(self.ftp, "", "")
       self.disconnect()
 
   def __downloadData(self, ftp, server_path, path):
@@ -37,6 +44,8 @@ class Pull(Command):
         print(ftp_file + "\n")
 
         local_path = path + os.path.sep + ftp_file   
+        if(local_path[0] == os.path.sep):
+          local_path = local_path.replace(os.path.sep, "")
         server_file = server_path + "/" + ftp_file
 
         try:
@@ -52,6 +61,16 @@ class Pull(Command):
           
           ftp.retrbinary(st, open(local_path, 'wb').write)
 
+          file_name = local_path.rsplit(os.path.sep, 1)
+          file_name = file_name[len(file_name) - 1]
+          file_path = local_path
+          file_id = GetCRC32(local_path)
+
+          if (CheckFileDB(self.db_path, file_name, file_path) == False):
+            InsertFileDB(self.db_path, file_name, file_path, file_id)
+          elif (GetCRC32DB(self.db_path, file_name, file_path) != 
+             file_id):
+            ModifyFileDB(self.db_path, file_name, file_path, file_id)
 
   def __checkFolder(self):
     if (CheckFolder(self.dest) == False):

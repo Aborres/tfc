@@ -6,6 +6,7 @@
 """
 import os
 from command import Command
+from db import *
 
 class Push(Command):
 
@@ -27,7 +28,19 @@ class Push(Command):
           except Exception, e:
             print("tfc Updating folder")
           self.ftp.cwd(file)
-        self.__uploadData(self.ftp, file, False)
+
+        file_name = file.rsplit(os.path.sep, 1)
+        file_name = file_name[len(file_name) - 1]
+        file_path = file
+        file_id = GetCRC32(file)
+        if (CheckFileDB(self.db_path, file_name, file_path) == False):          
+          self.__uploadData(self.ftp, file, False)
+          InsertFileDB(self.db_path, file_name, file_path, file_id)
+        else:
+          if(GetCRC32DB(self.db_path, file_name, file_path) != 
+             file_id):
+            self.__uploadData(self.ftp, file, False)
+            ModifyFileDB(self.db_path, file_name, file_path, file_id)
       self.disconnect()
 
   def eraseDefault(self, file):

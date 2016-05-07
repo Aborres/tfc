@@ -6,6 +6,7 @@
 """
 from command import Command
 from utils import * 
+from db import *
 
 class Init(Command):
 
@@ -20,6 +21,7 @@ class Init(Command):
 
   def default(self):
     self.checkCreateFolder()
+    CreateDB(self.db_path)
 
   def initForce(self, arg):
     self.erase(None)

@@ -29,7 +29,6 @@ def CheckFolder(path):
   exists = False
   if (os.path.exists(path)):
     exists = True
-
   return exists
 
 def CreateFile(path):

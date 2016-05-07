@@ -100,7 +100,7 @@ class Config(Command):
 
   def __writeConfig(self, section, tag, data):
     ini = ConfigParser.ConfigParser()
-    ini.read(self.path)
+    ini.read(self.config_path)
     ini.set(section, tag, data)
-    with open(self.path, 'wb') as configfile:
+    with open(self.config_path, 'wb') as configfile:
       ini.write(configfile)

@@ -36,11 +36,14 @@ class Dir(Command):
 
   def listDirectory(self, arg):
     if(self.connect()):
-      for command in arg:
-        try:
-          self.ftp.dir(command)
-        except Exception, e:
-          print("tfc " + command + " not found")
+      if(len(arg)!= 0):
+        for command in arg:
+          try:
+            self.ftp.dir(command)
+          except Exception, e:
+            print("tfc " + command + " not found")
+      else:
+        self.ftp.dir("")
       self.disconnect()
 
   def erase(self, arg):

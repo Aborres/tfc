@@ -42,6 +42,8 @@ last_check_time =
 copy_dir =
 dest =
 server_folder ="""
+    self.db_name = "ftp_files.db"
+    self.db_path = self.folder + os.path.sep + self.db_name
 
   def addArg(self, command, arg):
     self.commands[command] = arg
