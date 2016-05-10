@@ -73,24 +73,13 @@ class Config(Command):
       print("Server: " + self.server)
       print("Port: " + str(self.port))
       print("User: " + self.user)
-      print("Password: " + self.password)
       print("Local Dir: " + self.copy_dir)
       print("Local Dest: " + self.dest)
       print("Server Folder: " + self.assets)
 
-  def help(self, arg):
-    if (arg == ""):
-      print("\ntfc config -> Manages basic ftp information")
-      print("PARAMS:")
-      print("tfc config -u + arg -> Sets arg as ftp user")
-      print("tfc config -s + arg -> Sets arg as ftp ip")
-      print("tfc config -p + arg -> Sets arg as ftp port")
-      print("tfc config -ps + arg -> Sets arg as ftp password")
-      print("tfc config -uf + arg -> Sets arg as ftp upload default folder")
-      print("tfc config -df + arg -> Sets arg as ftp download default folder")
-      print("tfc config -h + arg -> Shows help")
-    elif (arg != ""):
-      print("\ntfc config " + arg + " + arg -> Sets arg as ftp user")
+  def help(self, args):
+    for arg in args:
+      self.printHelp("config", arg)
 
   def welcome(self, arg):
     print("Welcome to TFC v.01 :)")
@@ -100,7 +89,7 @@ class Config(Command):
 
   def __writeConfig(self, section, tag, data):
     ini = ConfigParser.ConfigParser()
-    ini.read(self.path)
+    ini.read(self.config_path)
     ini.set(section, tag, data)
-    with open(self.path, 'wb') as configfile:
+    with open(self.config_path, 'wb') as configfile:
       ini.write(configfile)

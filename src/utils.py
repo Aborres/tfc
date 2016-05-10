@@ -12,7 +12,7 @@ import ConfigParser
 
 def CopyFiles(from_folder, to_folder):
   print("\nCoping files...\n")
-  
+
   try:
     shutil.copytree(from_folder, to_folder)
   except OSError as exc:
@@ -20,37 +20,58 @@ def CopyFiles(from_folder, to_folder):
       shutil.copy(from_folder, to_folder)
     else: raise
 
+def ConvertSep(text):
+  aux = text.replace("\\", os.path.sep)
+  aux.replace("/", os.path.sep)
+  return aux
+
 def EraseFiles(file):
-  print("\nErasing files...\n")
-  if (CheckFolder(file)):
-    shutil.rmtree(file)
+  text = ConvertSep(file)
+  if (CheckFolder(text)):
+    shutil.rmtree(text)
 
 def CheckFolder(path):
+  text = ConvertSep(path)
   exists = False
-  if (os.path.exists(path)):
+  if (os.path.exists(text)):
     exists = True
-
   return exists
 
 def CreateFile(path):
-  if(CheckFolder(path) == False):
-    f = open(path, "wb")
+  text = ConvertSep(path)
+  if(CheckFolder(text) == False):
+    f = open(text, "wb")
     f.close()
   else:
-    print("File " + path + " was already there")
+    print("File " + text + " was already there")
 
 def CheckOldFolder(path):
-  if (CheckFolder(path)):
+  text = ConvertSep(path)
+  if (CheckFolder(text)):
     print("\nRemoving Old Folder..\n")
-    EraseFiles(path)
+    EraseFiles(text)
 
 def CreateFolder(path):
-  os.mkdir(path)
+  text = ConvertSep(path)
+  os.mkdir(text)
+
+def CreateFullPath(path):
+  text = ConvertSep(path)
+  new_path = text.split("/")
+  accum_path = new_path[0]
+
+  it = 1
+  for i in range(0, len(new_path)):
+    if (CheckFolder(accum_path) == False):
+      CreateFolder(accum_path)
+    else:
+      accum_path += "/" + new_path[it]
+      it += 1
 
 def CreateHiddenFolder(folder_name):
   path = os.getcwd()
   p = tempfile.mkdtemp(dir=path)
-  f = p.split(path + "/")[1]
+  f = p.split(path + os.path.sep)[1]
   os.rename(f, folder_name)
 
 def FTPRemoveTree(ftp, path):

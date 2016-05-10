@@ -6,6 +6,7 @@
 """
 import os
 from command import Command
+from db import *
 
 class Push(Command):
 
@@ -17,6 +18,8 @@ class Push(Command):
     self.commands_function["-erase"] = self.eraseDefault
     self.commands_function["-ef"] = self.eraseUploadFile
     self.commands_function["-erasefile"] = self.eraseUploadFile
+    self.commands_function["-h"] = self.help
+    self.commands_function["-help"] = self.help
 
   def uploadFile(self, files):
     if(self.connect()):
@@ -26,13 +29,27 @@ class Push(Command):
             self.ftp.mkd(file)
           except Exception, e:
             print("tfc Updating folder")
+            print(file)
           self.ftp.cwd(file)
-        self.__uploadData(self.ftp, file, False)
+
+        file_name = file.rsplit("/", 1)
+        file_name = file_name[len(file_name) - 1]
+        file_path = file
+        file_id = GetCRC32(file)
+
+        if (CheckFileDB(self.db_path, file_name, file_path) == False):
+          self.__uploadData(self.ftp, file, False)
+          InsertFileDB(self.db_path, file_name, file_path, file_id)
+        else:
+          if(GetCRC32DB(self.db_path, file_name, file_path) !=
+             file_id):
+            self.__uploadData(self.ftp, file, False)
+            ModifyFileDB(self.db_path, file_name, file_path, file_id)
       self.disconnect()
 
   def eraseDefault(self, file):
     self.checkNoArg(file)
-      
+
     if(self.connect()):
       self.__uploadData(self.ftp, self.copy_dir, True)
       self.disconnect()
@@ -54,6 +71,10 @@ class Push(Command):
       self.__uploadData(self.ftp, self.copy_dir, False)
       self.disconnect()
 
+  def help(self, args):
+    for arg in args:
+      self.printHelp("push", arg)
+
   def __uploadData(self, ftp, path, erase):
     try:
       files = os.listdir(path)
@@ -63,7 +84,7 @@ class Push(Command):
 
       for f in files:
 
-        ftp_path = path + os.path.sep +  f
+        ftp_path = path + "/" +  f
 
         if (os.path.isfile(ftp_path)):
           print("\nUploading: " + ftp_path + "\n")
@@ -75,7 +96,7 @@ class Push(Command):
           try:
             ftp.mkd(f)
           except Exception, e:
-            print("Folder was there")  
+            print("Folder was there")
           ftp.cwd(f)
           self.__uploadData(ftp, ftp_path, erase)
           ftp.cwd("../")

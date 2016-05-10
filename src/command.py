@@ -7,7 +7,9 @@
 import sys
 import ConfigParser
 import os
-from ftplib import FTP
+import getpass
+import json
+from ftplib import FTP_TLS
 from utils import *
 
 
@@ -19,31 +21,24 @@ class Command:
     self.commands_function = {}
     self.user = ""
     self.server = ""
-    self.password = ""
     self.port = 0
     self.copy_dir = ""
     self.dest = ""
     self.assets = ""
-    self.ftp = FTP()
+    self.ftp = FTP_TLS()
     self.folder = ".tfc"
     self.config_file = "config.ini"
     self.config_path = self.folder + os.path.sep + self.config_file
-    self.config_file_content = """[Server]
-server =
-port =
-user =
-password =
-
-[FTP Dir]
-current_dir =
-last_check_time =
-
-[Local]
-copy_dir =
-dest =
-server_folder ="""
+    self.config_file_content = ""
+    self.db_name = "ftp_files.db"
+    self.db_path = self.folder + os.path.sep + self.db_name
+    self.place_holder_config = "files/config.ini"
+    self.help_path = "files/help.json"
 
   def addArg(self, command, arg):
+    l = list()
+    for a in arg:
+        l.append(a.replace("\\", "/"))
     self.commands[command] = arg
 
   def checkCommand(self, command):
@@ -73,9 +68,15 @@ server_folder ="""
   def checkCreateFolder(self):
     if (CheckFolder(self.folder) == False):
       CreateHiddenFolder(self.folder)
+      
+      with open(self.place_holder_config, 'r') as content_file:
+        self.config_file_content += content_file.read()
+
       fb = open(self.config_path, 'w')
       fb.write(self.config_file_content)
       fb.close()
+
+
     else:
       print("tfc already exists in this folder")
 
@@ -86,7 +87,6 @@ server_folder ="""
       self.server = config.get('Server', 'server')
       self.port = config.get('Server', 'port')
       self.user = config.get('Server', 'user')
-      self.password = config.get('Server', 'password')
       self.copy_dir = config.get('Local', 'copy_dir')
       self.dest = config.get('Local', 'dest')
       self.server_folder = config.get('Local', 'server_folder')
@@ -101,11 +101,14 @@ server_folder ="""
   def help(self):
     print("Help")
 
+  #TODO: Check security conection
   def connect(self):
     if(self.readConfig()):
       try:
-        self.ftp = FTP(self.server)
-        self.ftp.login(self.user, self.password)
+        self.ftp = FTP_TLS(self.server)
+        password = self.__askPassWord()
+        self.ftp.login(self.user, password)
+        #self.ftp.prot_p()
         return True
       except Exception, e:
         print("ftc Unable to log in...")
@@ -115,7 +118,7 @@ server_folder ="""
     if(self.connect()):
       print("\n" + self.ftp.getwelcome() + "\n")
       self.disconnect()
-    
+
   def showDir(self):
     if(self.connect()):
       self.ftp.dir()
@@ -127,3 +130,17 @@ server_folder ="""
   def argError(self, file):
     print("tfc unexpected argument: " + str(file))
     sys.exit(-1)
+
+  def printHelp(self, command, arg):
+    with open(self.help_path) as help_file:
+      help = json.load(help_file)
+    try:
+      print("tfc " + help["help"][command][arg])
+    except Exception, e:
+      print("tfc help command " + arg + " not found")
+
+  def __askPassWord(self):
+      return getpass.getpass(prompt="tfc password: ")
+
+  def __askTimedPassWord(self):
+      print "TIMED PASS"

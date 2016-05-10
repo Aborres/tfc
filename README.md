@@ -19,7 +19,8 @@ TFC allows you to control every aspect of an FTP server from your command line.
 | init     |                 | Creates a ftp client on current folder                     |
 |          | -f              | Creates a ftp client erasing possible previous clients     |
 |          | -e              | Erases a ftp client on current folder                      |
-|          | -c (arg) (arg)  | Clones a ftp client from one folder to another
+|          | -c (arg) (arg)  | Clones a ftp client from one folder to another             |
+|          | -pdb            | Purgues file database                                      |
 |----------|-----------------|------------------------------------------------------------|
 | push     |                 | Uploads default folder                                     |
 |          | -f  (arg)       | Uploads an especific file or folder                        |

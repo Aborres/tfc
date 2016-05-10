@@ -36,11 +36,14 @@ class Dir(Command):
 
   def listDirectory(self, arg):
     if(self.connect()):
-      for command in arg:
-        try:
-          self.ftp.dir(command)
-        except Exception, e:
-          print("tfc " + command + " not found")
+      if(len(arg)!= 0):
+        for command in arg:
+          try:
+            self.ftp.dir(command)
+          except Exception, e:
+            print("tfc " + command + " not found")
+      else:
+        self.ftp.dir("")
       self.disconnect()
 
   def erase(self, arg):
@@ -65,4 +68,8 @@ class Dir(Command):
         FTPRemoveTree(self.ftp, "")
       except Exception, e:
         print("tfc can not purgue server")
-      self.disconnect()    
+      self.disconnect()
+
+  def help(self, args):
+    for arg in args:
+      self.printHelp("dir", arg)    

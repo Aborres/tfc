@@ -66,7 +66,6 @@ class TFC():
                 if ((it + counter) < len(argc)):
                   argv = argc[it + counter] 
             except Exception, e:
-              print("LLEGA")
               self.args[command] = ""
         except Exception, e:
             self.error()

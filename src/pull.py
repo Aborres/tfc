@@ -7,6 +7,8 @@
 import os
 from command import Command
 from utils import *
+from db import *
+from hash import *
 
 class Pull(Command):
 
@@ -15,43 +17,110 @@ class Pull(Command):
     self.commands_function["-f"] = self.pullFile
     self.commands_function["-file"] = self.pullFile
 
-  def pullFile(self, file):
-    print("Full")
+  def pullFile(self, files):
+    if(self.connect()):
+      for file in files:
+        self.__downloadData(self.ftp, file, "")
+      self.disconnect()
 
   def default(self):
     if(self.connect()):
-      self.__checkFolder()
-      self.__downloadData(self.ftp, "", self.dest)
+      ftp = self.ftp
+      ftp_files = ftp.nlst()
+      new_path = "tfc_download"
+
+      if(new_path[0] == "/"):
+        new_path = new_path.replace("/", "")
+
+      for ftp_file in ftp_files:
+        if (ftp_file != '.' and ftp_file != '..' and ftp_file != '.ftpquota'):
+          print("tfc donwloading: " + ftp_file + "\n")
+
+          try:
+            ftp.cwd(ftp_file) #if folder
+            ftp.cwd("..")
+            new_path += "/" + ftp_file
+
+            if(CheckFolder(new_path) == False):
+              CreateFullPath(new_path)
+
+            self.__downloadFolder(ftp, ftp_file, new_path)
+            ftp.cwd("..")
+            new_path = new_path.rsplit("/", 1)[0]
+          except Exception, e:
+            self.__downloadFile(ftp, ftp_file, new_path + "/" + ftp_file)
       self.disconnect()
 
+  def help(self, args):
+    for arg in args:
+      self.printHelp("pull", arg)
+
   def __downloadData(self, ftp, server_path, path):
-    print("\nDonwloading from: " + server_path)
-    
+    ext = server_path.rsplit(".", 1)
+    file_name = server_path.rsplit("/", 1)
+    file_name = file_name[len(file_name) - 1]
+    file_path = server_path
+
+    if (CheckFolder(file_path) == False):
+      CreateFullPath(file_path)
+
+    if (len(ext) > 1): #FILE
+      try:
+        self.__downloadFile(ftp, server_path, file_path)
+      except Exception, e:
+        erase = server_path.split("/", 1)[0]
+        #EraseFiles(erase) TODO
+        print("tfc file: " + server_path + " not found on server")
+    else: #Folder
+      try:
+        self.__downloadFolder(ftp, server_path, file_path)
+      except Exception, e:
+        EraseFiles(path)
+        print("tfc Folder: " + server_path + " not found on server")
+
+  def __downloadFolder(self, ftp, path, local_path):
+    ftp.cwd(path)
     ftp_files = ftp.nlst()
-    print("Files to download:")
-    print(ftp_files)
+    new_path = local_path
+
+    if(new_path[0] == "/"):
+      new_path = new_path.replace("/", "")
 
     for ftp_file in ftp_files:
       if (ftp_file != '.' and ftp_file != '..' and ftp_file != '.ftpquota'):
-        print("Donwloading: ")
-        print(ftp_file + "\n")
-
-        local_path = path + os.path.sep + ftp_file   
-        server_file = server_path + "/" + ftp_file
+        print("tfc donwloading: " + ftp_file + "\n")
 
         try:
-          ftp.cwd(server_file)
+          ftp.cwd(ftp_file) #if folder
+          ftp.cwd("..")
+          new_path += "/" + ftp_file
 
-          if (CheckFolder(local_path) == False):
-            CreateFolder(local_path)
-          
-          self.__downloadData(ftp, server_file, local_path)
+          if(CheckFolder(new_path) == False):
+            CreateFullPath(new_path)
 
+          self.__downloadFolder(ftp, ftp_file, new_path)
+          ftp.cwd("..")
+          new_path = new_path.rsplit("/", 1)[0]
         except Exception, e:
-          st = 'RETR %s' % server_file
-          
-          ftp.retrbinary(st, open(local_path, 'wb').write)
+          self.__downloadFile(ftp, ftp_file, new_path + "/" + ftp_file)
 
+  # Donwloads an especific file and replies the folder structure
+  # Updates DB
+  def __downloadFile(self, ftp, path, local_path):
+    file_name = local_path.rsplit("/", 1)
+    file_name = file_name[len(file_name) - 1]
+    file_path = local_path
+
+    st = 'RETR %s' % path
+    ftp.retrbinary(st, open(local_path, 'wb').write)
+    file_id = GetCRC32(local_path)
+
+    if (CheckFileDB(self.db_path, file_name, file_path) == False):
+      InsertFileDB(self.db_path, file_name, file_path, file_id)
+
+    elif (GetCRC32DB(self.db_path, file_name, file_path) !=
+     file_id):
+      ModifyFileDB(self.db_path, file_name, file_path, file_id)
 
   def __checkFolder(self):
     if (CheckFolder(self.dest) == False):
