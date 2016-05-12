@@ -6,6 +6,7 @@
 """
 from utils import *
 from command import Command
+from print_color import *
 
 class Dir(Command):
 
@@ -31,7 +32,7 @@ class Dir(Command):
         try:
           self.ftp.mkd(command)
         except Exception, e:
-          print("tfc " + command + " not found")
+          print(color.TFC + "tfc " + color.WARNING + command + " not found")
       self.disconnect()
 
   def listDirectory(self, arg):
@@ -41,7 +42,7 @@ class Dir(Command):
           try:
             self.ftp.dir(command)
           except Exception, e:
-            print("tfc " + command + " not found")
+            print(color.TFC + "tfc " + color.WARNING + command + " not found")
       else:
         self.ftp.dir("")
       self.disconnect()
@@ -52,7 +53,7 @@ class Dir(Command):
         try:
           self.ftp.delete(command)
         except Exception, e:
-          print("tfc " + command + " not found")
+          print(color.TFC + "tfc " + color.WARNING + command + " not found")
       self.disconnect()
 
   def eraseFolder(self, arg):
@@ -67,9 +68,8 @@ class Dir(Command):
       try:
         FTPRemoveTree(self.ftp, "")
       except Exception, e:
-        print("tfc can not purgue server")
+        print(color.TFC + "tfc " + color.FAIL + "can not purgue server")
       self.disconnect()
 
   def help(self, args):
-    for arg in args:
-      self.printHelp("dir", arg)    
+    self.printHelp("dir", args)    

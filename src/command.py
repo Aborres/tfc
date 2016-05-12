@@ -11,7 +11,7 @@ import getpass
 import json
 from ftplib import FTP_TLS
 from utils import *
-
+from print_color import *
 
 class Command:
 
@@ -39,7 +39,7 @@ class Command:
     l = list()
     for a in arg:
         l.append(a.replace("\\", "/"))
-    self.commands[command] = arg
+    self.commands[command] = l
 
   def checkCommand(self, command):
     if command in self.commands_function:
@@ -76,9 +76,8 @@ class Command:
       fb.write(self.config_file_content)
       fb.close()
 
-
     else:
-      print("tfc already exists in this folder")
+      print(color.TFC + "tfc " + color.WARNING + "already exists in this folder")
 
   def readConfig(self):
     if(CheckFolder(self.folder) == True):
@@ -92,7 +91,7 @@ class Command:
       self.server_folder = config.get('Local', 'server_folder')
       return True
     else:
-      print("tfc not initialized in this folder")
+      print(color.TFC + "tfc " + color.WARNING + "not initialized in this folder")
       return False
 
   def default(self):
@@ -111,7 +110,7 @@ class Command:
         #self.ftp.prot_p()
         return True
       except Exception, e:
-        print("ftc Unable to log in...")
+        print(color.TFC + "ftc " + color.WARNING + "Unable to log in...")
         return False
 
   def showWelcome(self):
@@ -137,7 +136,8 @@ class Command:
     try:
       print("tfc " + help["help"][command][arg])
     except Exception, e:
-      print("tfc help command " + arg + " not found")
+      print(color.TFC + "tfc " + color.WARNING + "help command " + color.COMMAND + arg +
+      color.WARNING + " not found")
 
   def __askPassWord(self):
       return getpass.getpass(prompt="tfc password: ")

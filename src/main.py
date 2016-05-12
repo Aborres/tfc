@@ -11,6 +11,7 @@ from pull import Pull
 from dir import Dir
 from config import Config
 from collections import defaultdict
+from print_color import *
 
 class TFC():
 
@@ -71,8 +72,8 @@ class TFC():
             self.error()
         it += 1
     except Exception, e:
-      print("tfc not arguments recived...")
-      print("Try: tfc config -h to start")
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived...")
+      print(color.TFC + "tfc " + color.WARNING + "try: tfc config -h to start")
       sys.exit(-1) #if nothing recieved abort program
 
   def run(self):
@@ -80,4 +81,4 @@ class TFC():
     self.executeCommand()
 
   def error(self):
-    print("tfc command \"" + self.command + "\" not found")
+    print(color.TFC + "tfc command \"" + color.WARNING + self.command + "\" not found")

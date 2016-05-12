@@ -68,6 +68,18 @@ def CreateFullPath(path):
       accum_path += "/" + new_path[it]
       it += 1
 
+def CreateFullPathFTP(ftp, path):
+  text = ConvertSep(path)
+  new_path = text.split("/")
+  for i in range(len(new_path)):
+    try:
+      ftp.mkd(new_path[i])
+    except Exception, e:
+      pass
+    ftp.cwd(new_path[i])
+  for i in range(len(new_path)):
+    ftp.cwd("..")
+
 def CreateHiddenFolder(folder_name):
   path = os.getcwd()
   p = tempfile.mkdtemp(dir=path)

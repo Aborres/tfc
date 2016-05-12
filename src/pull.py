@@ -27,7 +27,7 @@ class Pull(Command):
     if(self.connect()):
       ftp = self.ftp
       ftp_files = ftp.nlst()
-      new_path = "tfc_download"
+      new_path = os.getcwd()
 
       if(new_path[0] == "/"):
         new_path = new_path.replace("/", "")

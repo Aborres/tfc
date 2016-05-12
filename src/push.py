@@ -31,20 +31,16 @@ class Push(Command):
             print("tfc Updating folder")
             print(file)
           self.ftp.cwd(file)
-
-        file_name = file.rsplit("/", 1)
-        file_name = file_name[len(file_name) - 1]
-        file_path = file
-        file_id = GetCRC32(file)
-
-        if (CheckFileDB(self.db_path, file_name, file_path) == False):
           self.__uploadData(self.ftp, file, False)
-          InsertFileDB(self.db_path, file_name, file_path, file_id)
         else:
-          if(GetCRC32DB(self.db_path, file_name, file_path) !=
-             file_id):
-            self.__uploadData(self.ftp, file, False)
-            ModifyFileDB(self.db_path, file_name, file_path, file_id)
+          path = file.rsplit("/", 1)[0]
+          try:
+            print path
+            CreateFullPathFTP(self.ftp, path)
+            #self.ftp.mkd(path)
+          except Exception, e:
+            pass
+          self.__pushFile(self.ftp, file, file)
       self.disconnect()
 
   def eraseDefault(self, file):
@@ -68,7 +64,7 @@ class Push(Command):
 
   def default(self):
     if(self.connect()):
-      self.__uploadData(self.ftp, self.copy_dir, False)
+      self.__uploadData(self.ftp, os.getcwd(), False)
       self.disconnect()
 
   def help(self, args):
@@ -108,6 +104,18 @@ class Push(Command):
       fb = open(file, 'rb')
       ftp.storbinary('STOR %s' % f, fb)
       fb.close()
+      
+      file_name = file.rsplit("/", 1)
+      file_name = file_name[len(file_name) - 1]
+      file_path = file
+      file_id = GetCRC32(file)
+
+      if (CheckFileDB(self.db_path, file_name, file_path) == False):
+        InsertFileDB(self.db_path, file_name, file_path, file_id)
+      else:
+        if(GetCRC32DB(self.db_path, file_name, file_path) != file_id):
+          ModifyFileDB(self.db_path, file_name, file_path, file_id)
       print("tfc " + file + " uploaded")
+
     except Exception, e:
       print("File: " + file + " not found")

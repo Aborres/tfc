@@ -7,6 +7,7 @@
 from command import Command
 from utils import * 
 from db import *
+from print_color import *
 
 class Init(Command):
 
@@ -41,11 +42,10 @@ class Init(Command):
       to_path = arg[1]
       CopyFiles(from_path, to_path)
     else:
-      print("tfc Invalid args for clone")
+      print(color.TFC + "tfc " + color.FAIL +"Invalid args for clone")
 
   def purgueDB(self, arg):
     PurgeDB(self.db_path)
 
   def help(self, args):
-    for arg in args:
-      self.printHelp("init", arg)
+    self.printHelp("init", args)

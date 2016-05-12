@@ -6,6 +6,7 @@
 """
 from command import Command
 from utils import *
+from print_color import *
 
 class Config(Command):
 
@@ -34,58 +35,57 @@ class Config(Command):
     if (CheckFolder(self.folder) == True):
       self.__writeConfig('Server', 'user', user[0])
     else:
-      print("tfc was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
 
   def setServer(self, server):
     if (CheckFolder(self.folder) == True):
       self.__writeConfig('Server', 'server', server[0])
     else:
-      print("tfc was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
 
   def setPort(self, port):
-    print(port)
     if (CheckFolder(self.folder) == True):
       self.__writeConfig('Server', 'port', port[0])
     else:
-      print("tfc was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
 
   def setPassword(self, password):
     print("PASSWORD: " + password[0])
     if (CheckFolder(self.folder) == True):
       self.__writeConfig('Server', 'password', password[0])
     else:
-      print("tfc was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
 
   def setUploadFolder(self, folder):
     if (CheckFolder(self.folder) == True):
       self.__writeConfig('Local', 'copy_dir', folder[0])
     else:
-      print("tfc was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
 
   def setDownloadFolder(self, folder):
     if (CheckFolder(self.folder) == True):
       self.__writeConfig('Local', 'dest', folder[0])
     else:
-      print("tfc was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
 
   def default(self):
     if(self.readConfig()):
-      print("Server: " + self.server)
-      print("Port: " + str(self.port))
-      print("User: " + self.user)
-      print("Local Dir: " + self.copy_dir)
-      print("Local Dest: " + self.dest)
-      print("Server Folder: " + self.assets)
+      print(color.TFC + "Server: " + color.ARG + self.server)
+      print(color.TFC + "Port: " + color.ARG + str(self.port))
+      print(color.TFC + "User: " + color.ARG + self.user)
+      print(color.TFC + "Local Dir: " + color.ARG + self.copy_dir)
+      print(color.TFC + "Local Dest: " + color.ARG + self.dest)
+      print(color.TFC + "Server Folder: " + color.ARG + self.assets)
 
   def help(self, args):
     for arg in args:
       self.printHelp("config", arg)
 
   def welcome(self, arg):
-    print("Welcome to TFC v.01 :)")
+    print(color.TFC + "Welcome to TFC v.01 :)")
 
   def info(self, arg):
-    print("TFC is developed by Jose Manuel Naranjo <jmnaranjotemprano@gmail> ")
+    print(color.TFC + "TFC is developed by Jose Manuel Naranjo")
 
   def __writeConfig(self, section, tag, data):
     ini = ConfigParser.ConfigParser()
