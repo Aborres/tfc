@@ -132,12 +132,16 @@ class Command:
 
   def printHelp(self, command, arg):
     with open(self.help_path) as help_file:
-      help = json.load(help_file)
-    try:
-      print("tfc " + help["help"][command][arg])
-    except Exception, e:
-      print(color.TFC + "tfc " + color.WARNING + "help command " + color.COMMAND + arg +
-      color.WARNING + " not found")
+          help = json.load(help_file)
+    if (len(arg) == 0):
+      print("tfc " + help["help"][command][""])
+    else:
+      for i in len(arg):
+        try:
+          print("tfc " + help["help"][command][arg])
+        except Exception, e:
+          print(color.TFC + "tfc " + color.WARNING + "help command " + color.COMMAND + arg +
+          color.WARNING + " not found")
 
   def __askPassWord(self):
       return getpass.getpass(prompt="tfc password: ")

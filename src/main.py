@@ -9,6 +9,7 @@ from init import Init
 from push import Push
 from pull import Pull
 from dir import Dir
+from purgue import Purgue
 from config import Config
 from collections import defaultdict
 from print_color import *
@@ -23,9 +24,10 @@ class TFC():
     self.valid_commands = {}
     self.valid_commands["init"] = Init()
     self.valid_commands["push"] = Push()
-    self.valid_commands["config"] = Config()
     self.valid_commands["pull"] = Pull()
+    self.valid_commands["config"] = Config()
     self.valid_commands["dir"] = Dir()
+    self.valid_commands["purgue"] = Purgue()
 
   def checkCommand(self):
     for command in self.valid_commands:

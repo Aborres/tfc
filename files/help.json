@@ -1,18 +1,16 @@
 {
   "help": {
     "init": {
-      "init": "Creates a ftp client on current folder",
+      "": "Creates a ftp client on current folder",
       "f": "Creates a ftp client erasing possible previous clients",
       "fill": "Creates a ftp client erasing possible previous clients",
       "e": "Erases a ftp client on current folder",
       "erase": "Erases a ftp client on current folder",
       "c": "Clones a ftp client from one folder to another",
       "clone": "Clones a ftp client from one folder to another",
-      "pdb": "Purgues file database",
-      "purguedb": "Purgues file database"
     },
     "push": {
-      "push": "Uploads default folder",
+      "": "Uploads default folder",
       "f": "Uploads an especific file or folder",
       "file": "Uploads an especific file or folder",
       "e": "Uploads default folder erasing previous files",
@@ -21,28 +19,44 @@
       "erasefile": "Uploads an especific file or folder erasing previous files"
     },
     "pull": {
-      "pull": "",
-      "f": "",
-      "file": ""
+      "": "Downloads all content from server",
+      "f": "Downloads an especific folder from server",
+      "file": "Downloads an especific folder from server"
     },
     "config": {
-      "config": "",
-      "u": "",
-      "s": "",
-      "p": "",
-      "ps": "",
-      "uf": "",
-      "df": "",
-      "w": "",
-      "i": ""
+      "": "Shows all configuration info",
+      "u": "Sets Default user for FTP conexion",
+      "user": "Sets Default user for FTP conexion",
+      "s": "Sets Default server for FTP conexion",
+      "server": "Sets Default server for FTP conexion",
+      "p": "Sets Default port for FTP conexion",
+      "port": "Sets Default port for FTP conexion",
+      "ps": "Sets Default password for FTP conexion",
+      "password": "Sets Default password for FTP conexion",
+      "uf": "Sets Default upload folder for FTP conexion",
+      "uploadfolder": "Sets Default upload folder for FTP conexion",
+      "df": "Sets Default download folder for FTP conexion",
+      "downloadfolder": "Sets Default download folder for FTP conexion",
+      "w": "Shows welcome to TFC system :)",
+      "welcome": "Shows welcome to TFC system :)",
+      "i": "Shows info about the system",
+      "info": "Shows info about the system"
     },
     "dir": {
-      "dir": "",
-      "mkdir": "",
-      "ls": "",
-      "e": "",
-      "ef": "",
-      "p": ""
+      "": "Shows content in FTP server",
+      "mkdir": "Creates a folder in arg route",
+      "ls": "Lists content of arg folder",
+      "e": "Erases arg file",
+      "ef": "Erases arg folder and all it's content",
+    },
+    "purgue": {
+      "": "WARNING: Erases information in Server/Local/DB",
+      "db": "Erases all local content in this folder",
+      "database": "Erases all local content in this folder",
+      "s": "Erases all content from ftp server",
+      "server": "Erases all content from ftp server",
+      "l": "Erases all local content in this folder",
+      "local": "Erases all local content in this folder"
     }
   }
 }

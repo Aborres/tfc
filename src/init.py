@@ -19,8 +19,6 @@ class Init(Command):
     self.commands_function["-erase"] = self.erase
     self.commands_function["-c"] = self.clone
     self.commands_function["-clone"] = self.clone
-    self.commands_function["-pdb"] = self.purgueDB
-    self.commands_function["-purgedb"] = self.purgueDB
     self.commands_function["-h"] = self.help
     self.commands_function["-help"] = self.help
 
@@ -43,9 +41,6 @@ class Init(Command):
       CopyFiles(from_path, to_path)
     else:
       print(color.TFC + "tfc " + color.FAIL +"Invalid args for clone")
-
-  def purgueDB(self, arg):
-    PurgeDB(self.db_path)
 
   def help(self, args):
     self.printHelp("init", args)

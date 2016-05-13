@@ -68,8 +68,7 @@ class Push(Command):
       self.disconnect()
 
   def help(self, args):
-    for arg in args:
-      self.printHelp("push", arg)
+    self.printHelp("push", arg)
 
   def __uploadData(self, ftp, path, erase):
     try:

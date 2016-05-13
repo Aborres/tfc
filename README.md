@@ -12,7 +12,8 @@ TFC allows you to control every aspect of an FTP server from your command line.
 2. push
 3. pull
 4. config
-5. dir 
+5. dir
+6. purgue 
 
 | Commands | Arg             | Action                                                     |
 |----------|:---------------:|-----------------------------------------------------------:|
@@ -20,15 +21,14 @@ TFC allows you to control every aspect of an FTP server from your command line.
 |          | -f              | Creates a ftp client erasing possible previous clients     |
 |          | -e              | Erases a ftp client on current folder                      |
 |          | -c (arg) (arg)  | Clones a ftp client from one folder to another             |
-|          | -pdb            | Purgues file database                                      |
 |----------|-----------------|------------------------------------------------------------|
 | push     |                 | Uploads default folder                                     |
 |          | -f  (arg)       | Uploads an especific file or folder                        |
 |          | -e  (arg)       | Uploads default folder erasing previous files              |
 |          | -ef (arg)       | Uploads an especific file or folder erasing previous files |
 |----------|-----------------|------------------------------------------------------------|
-| pull     |                 | Downloads all content                                      |
-|          | -f (arg)        | Downloads an especific folder                              |
+| pull     |                 | Downloads all content from server                          |
+|          | -f (arg)        | Downloads an especific folder from server                  |
 |----------|-----------------|------------------------------------------------------------|
 | config   |                 | Shows all configuration info                               |
 |          | -u (arg)        | Sets Default user for FTP conexion                         |
@@ -37,7 +37,6 @@ TFC allows you to control every aspect of an FTP server from your command line.
 |          | -ps (arg)       | Sets Default password for FTP conexion                     |
 |          | -uf (arg)       | Sets Default upload folder for FTP conexion                |
 |          | -df (arg)       | Sets Default download folder for FTP conexion              |
-|          | -h (arg)        | Shows help about this command                              |
 |          | -w (arg)        | Shows welcome to TFC system :)                             |
 |          | -i (arg)        | Shows info about the system                                |
 |----------|-----------------|------------------------------------------------------------|
@@ -46,7 +45,11 @@ TFC allows you to control every aspect of an FTP server from your command line.
 |          | -ls (arg)       | Lists content of arg folder                                |
 |          | -e (arg)        | Erases arg file                                            |
 |          | -ef (arg)       | Erases arg folder and all it's content                     |
-|          | -p              | Erases all content from ftp server                         |
+|----------|-----------------|------------------------------------------------------------|
+| purgue   |                 | WARNING: Erases information in Server/Local/DB             |
+|          | -l              | Erases all local content in this folder                    |
+|          | -s              | Erases all content from ftp server                         |
+|          | -db             | Purgues file database                                      |
 |----------|:---------------:|-----------------------------------------------------------:|
 
 ### How to use:

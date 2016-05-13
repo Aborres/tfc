@@ -52,8 +52,7 @@ class Pull(Command):
       self.disconnect()
 
   def help(self, args):
-    for arg in args:
-      self.printHelp("pull", arg)
+    self.printHelp("pull", arg)
 
   def __downloadData(self, ftp, server_path, path):
     ext = server_path.rsplit(".", 1)
