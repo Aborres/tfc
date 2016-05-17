@@ -131,14 +131,16 @@ class Command:
     sys.exit(-1)
 
   def printHelp(self, command, arg):
+    
     with open(self.help_path) as help_file:
-          help = json.load(help_file)
+      help = json.load(help_file)
+    
     if (len(arg) == 0):
       print("tfc " + help["help"][command][""])
     else:
-      for i in len(arg):
+      for i in range(len(arg)):
         try:
-          print("tfc " + help["help"][command][arg])
+          print("tfc " + help["help"][command][arg[i]])
         except Exception, e:
           print(color.TFC + "tfc " + color.WARNING + "help command " + color.COMMAND + arg +
           color.WARNING + " not found")

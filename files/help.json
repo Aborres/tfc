@@ -7,7 +7,7 @@
       "e": "Erases a ftp client on current folder",
       "erase": "Erases a ftp client on current folder",
       "c": "Clones a ftp client from one folder to another",
-      "clone": "Clones a ftp client from one folder to another",
+      "clone": "Clones a ftp client from one folder to another"
     },
     "push": {
       "": "Uploads default folder",
@@ -47,9 +47,9 @@
       "mkdir": "Creates a folder in arg route",
       "ls": "Lists content of arg folder",
       "e": "Erases arg file",
-      "ef": "Erases arg folder and all it's content",
+      "ef": "Erases arg folder and all it's content"
     },
-    "purgue": {
+    "purge": {
       "": "WARNING: Erases information in Server/Local/DB",
       "db": "Erases all local content in this folder",
       "database": "Erases all local content in this folder",
