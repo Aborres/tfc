@@ -78,7 +78,7 @@ class Config(Command):
       print(color.TFC + "Server Folder: " + color.ARG + self.assets)
 
   def help(self, args):
-    self.printHelp("config", arg)
+    self.printHelp("config", args)
 
   def welcome(self, arg):
     print(color.TFC + "Welcome to TFC v.01 :)")
