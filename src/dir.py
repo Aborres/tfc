@@ -20,6 +20,8 @@ class Dir(Command):
     self.commands_function["-erase"] = self.erase
     self.commands_function["-ef"] = self.eraseFolder
     self.commands_function["-erasefolder"] = self.eraseFolder
+    self.commands_function["-h"] = self.help
+    self.commands_function["-help"] = self.help
 
   def default(self):
     self.showDir()

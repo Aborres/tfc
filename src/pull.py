@@ -59,18 +59,19 @@ class Pull(Command):
     file_name = server_path.rsplit("/", 1)
     file_name = file_name[len(file_name) - 1]
     file_path = server_path
-
-    if (CheckFolder(file_path) == False):
-      CreateFullPath(file_path)
-
+    
     if (len(ext) > 1): #FILE
       try:
-        self.__downloadFile(ftp, server_path, file_path)
+        self.__downloadFile(ftp, server_path, file_name)
+        print "tfc " + file_name + " Downloaded"
       except Exception, e:
         erase = server_path.split("/", 1)[0]
         #EraseFiles(erase) TODO
         print("tfc file: " + server_path + " not found on server")
     else: #Folder
+      if (CheckFolder(file_path) == False):
+        CreateFullPath(file_path)
+
       try:
         self.__downloadFolder(ftp, server_path, file_path)
       except Exception, e:
