@@ -9,6 +9,7 @@ import ConfigParser
 import os
 import getpass
 import json
+import time
 from ftplib import FTP_TLS
 from utils import *
 from print_color import *
@@ -21,6 +22,7 @@ class Command:
     self.commands_function = {}
     self.user = ""
     self.server = ""
+    self.password = ""
     self.port = 0
     self.copy_dir = ""
     self.dest = ""
@@ -34,6 +36,8 @@ class Command:
     self.db_path = self.folder + os.path.sep + self.db_name
     self.place_holder_config = "files/config.ini"
     self.help_path = "files/help.json"
+    self.time_out = 300
+    self.time = 0
 
   def addArg(self, command, arg):
     l = list()
@@ -75,9 +79,10 @@ class Command:
       fb = open(self.config_path, 'w')
       fb.write(self.config_file_content)
       fb.close()
-
+      return True
     else:
       print(color.TFC + "tfc " + color.WARNING + "already exists in this folder")
+      return False
 
   def readConfig(self):
     if(CheckFolder(self.folder) == True):
@@ -86,9 +91,12 @@ class Command:
       self.server = config.get('Server', 'server')
       self.port = config.get('Server', 'port')
       self.user = config.get('Server', 'user')
+      self.password = config.get('Server', 'password')
       self.copy_dir = config.get('Local', 'copy_dir')
       self.dest = config.get('Local', 'dest')
       self.server_folder = config.get('Local', 'server_folder')
+      self.time = config.get('Config', 'time')
+      self.time_out = config.get('Config', 'time_out')
       return True
     else:
       print(color.TFC + "tfc " + color.WARNING + "not initialized in this folder")
@@ -111,6 +119,7 @@ class Command:
         return True
       except Exception, e:
         print(color.TFC + "ftc " + color.WARNING + "Unable to log in...")
+        self.__writeConfig("Config", "time", 0)
         return False
 
   def showWelcome(self):
@@ -131,10 +140,10 @@ class Command:
     sys.exit(-1)
 
   def printHelp(self, command, arg):
-    
+
     with open(self.help_path) as help_file:
       help = json.load(help_file)
-    
+
     if (len(arg) == 0):
       print("tfc " + help["help"][command][""])
     else:
@@ -143,10 +152,25 @@ class Command:
           print("tfc " + help["help"][command][arg[i]])
         except Exception, e:
           print(color.TFC + "tfc " + color.WARNING + "help command " + color.COMMAND + arg +
-          color.WARNING + " not found")
+          color.WARNING + " not found")  
 
   def __askPassWord(self):
-      return getpass.getpass(prompt="tfc password: ")
+      self.readConfig()
+      time = GetTime()
+      if (int(time) - int(self.time) >= int(self.time_out)):
+        self.password = getpass.getpass(prompt="tfc password: ")
+        self.time = time
+        self.__writeConfig("Config", "time", self.time)
+        self.__writeConfig("Server", "password", self.password)
+      
+      return self.password
 
   def __askTimedPassWord(self):
       print "TIMED PASS"
+
+  def __writeConfig(self, section, tag, data):
+    ini = ConfigParser.ConfigParser()
+    ini.read(self.config_path)
+    ini.set(section, tag, data)
+    with open(self.config_path, 'wb') as configfile:
+      ini.write(configfile)

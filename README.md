@@ -22,7 +22,7 @@ TFC allows you to control every aspect of an FTP server from your command line.
 |          | -e              | Erases a ftp client on current folder                      |
 |          | -c (arg) (arg)  | Clones a ftp client from one folder to another             |
 |----------|-----------------|------------------------------------------------------------|
-| push     |                 | Uploads default folder                                     |
+| push     |                 | Uploads default folder (Default Root)                      |
 |          | -f  (arg)       | Uploads an especific file or folder                        |
 |          | -e  (arg)       | Uploads default folder erasing previous files              |
 |          | -ef (arg)       | Uploads an especific file or folder erasing previous files |
@@ -39,6 +39,7 @@ TFC allows you to control every aspect of an FTP server from your command line.
 |          | -df (arg)       | Sets Default download folder for FTP conexion              |
 |          | -w (arg)        | Shows welcome to TFC system :)                             |
 |          | -i (arg)        | Shows info about the system                                |
+|          | -timeout (arg)  | Sets Default time for password timeout                     |
 |----------|-----------------|------------------------------------------------------------|
 | dir      |                 | Shows content in FTP server                                |
 |          | -mkdir (arg)    | Creates a folder in arg route                              |
@@ -60,7 +61,8 @@ tfc config -s (SERVER)
 tfc config -p (PORT)
 tfc config -ps (PASSWORD)
 
-Defaults folders are optional options only for easy use.
+tfc push -f (file/folder)
+tfc pull -f (file/folder)
 
 Or
 

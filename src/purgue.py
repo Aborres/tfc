@@ -30,4 +30,4 @@ class Purgue(Command):
       self.disconnect()
 
   def local(self, args):
-    print "LOCAL"
+    print "tfc Maybe is not a good idea..."

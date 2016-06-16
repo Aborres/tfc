@@ -66,7 +66,7 @@ class Pull(Command):
         print "tfc " + file_name + " Downloaded"
       except Exception, e:
         erase = server_path.split("/", 1)[0]
-        #EraseFiles(erase) TODO
+        EraseFiles(erase)
         print("tfc file: " + server_path + " not found on server")
     else: #Folder
       if (CheckFolder(file_path) == False):

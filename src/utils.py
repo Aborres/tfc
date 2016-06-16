@@ -9,6 +9,7 @@ import shutil
 import errno
 import os
 import ConfigParser
+import time
 
 def CopyFiles(from_folder, to_folder):
   print("\nCoping files...\n")
@@ -109,6 +110,10 @@ def FTPRemoveTree(ftp, path):
     ftp.rmd(path)
   except Exception, e:
     print('Failed to remove {0}: {1}'.format(path, e))
+
+def GetTime():
+  t = time.localtime()
+  return t.tm_hour * 3600 + t.tm_min * 60 + t.tm_sec
 
 def __pushFile(self, ftp, f, file):
   try:

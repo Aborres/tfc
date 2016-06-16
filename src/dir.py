@@ -27,13 +27,16 @@ class Dir(Command):
     self.showDir()
 
   def makeDirectory(self, arg):
-    if(self.connect()):
-      for command in arg:
-        try:
-          self.ftp.mkd(command)
-        except Exception, e:
-          print(color.TFC + "tfc " + color.WARNING + command + " not found")
-      self.disconnect()
+    if(len(arg) != 0):
+      if(self.connect()):
+        for command in arg:
+          try:
+            self.ftp.mkd(command)
+          except Exception, e:
+            print(color.TFC + "tfc " + color.WARNING + command + " not found")
+        self.disconnect()
+    else:
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def listDirectory(self, arg):
     if(self.connect()):
@@ -48,19 +51,25 @@ class Dir(Command):
       self.disconnect()
 
   def erase(self, arg):
-    if(self.connect()):
-      for command in arg:
-        try:
-          self.ftp.delete(command)
-        except Exception, e:
-          print(color.TFC + "tfc " + color.WARNING + command + " not found")
-      self.disconnect()
+    if (len(arg) != 0):
+      if (self.connect()):
+        for command in arg:
+          try:
+            self.ftp.delete(command)
+          except Exception, e:
+            print(color.TFC + "tfc " + color.WARNING + command + " not found")
+        self.disconnect()
+    else:
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def eraseFolder(self, arg):
-    if(self.connect()):
-      for command in arg:
-        FTPRemoveTree(self.ftp, command)
-      self.disconnect()
+    if (len(arg) != 0):
+      if(self.connect()):
+        for command in arg:
+          FTPRemoveTree(self.ftp, command)
+        self.disconnect()
+    else:
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def help(self, args):
     self.printHelp("dir", args)    

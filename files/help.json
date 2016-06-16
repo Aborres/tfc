@@ -3,7 +3,7 @@
     "init": {
       "": "Creates a ftp client on current folder",
       "f": "Creates a ftp client erasing possible previous clients",
-      "fill": "Creates a ftp client erasing possible previous clients",
+      "force": "Creates a ftp client erasing possible previous clients",
       "e": "Erases a ftp client on current folder",
       "erase": "Erases a ftp client on current folder",
       "c": "Clones a ftp client from one folder to another",
@@ -24,7 +24,7 @@
       "file": "Downloads an especific folder from server"
     },
     "config": {
-      "": "Shows all configuration info",
+      "": "Shows all configuration info: \n\ntfc config -u User -s Server -p Port -ps Password -timeout 300\n",
       "u": "Sets Default user for FTP conexion",
       "user": "Sets Default user for FTP conexion",
       "s": "Sets Default server for FTP conexion",
@@ -40,7 +40,8 @@
       "w": "Shows welcome to TFC system :)",
       "welcome": "Shows welcome to TFC system :)",
       "i": "Shows info about the system",
-      "info": "Shows info about the system"
+      "info": "Shows info about the system",
+      "timeout": "Sets Default timeout time"
     },
     "dir": {
       "": "Shows content in FTP server",

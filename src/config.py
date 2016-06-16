@@ -24,6 +24,7 @@ class Config(Command):
     self.commands_function["-uploadfolder"] = self.setUploadFolder
     self.commands_function["-df"] = self.setDownloadFolder
     self.commands_function["-downloadfolder"] = self.setDownloadFolder
+    self.commands_function["-timeout"] = self.setTimeOut
     self.commands_function["-h"] = self.help
     self.commands_function["-help"] = self.help
     self.commands_function["-w"] = self.welcome
@@ -32,41 +33,67 @@ class Config(Command):
     self.commands_function["-info"] = self.info
 
   def setUser(self, user):
-    if (CheckFolder(self.folder) == True):
-      self.__writeConfig('Server', 'user', user[0])
+    if (len(user) != 0):
+      if (CheckFolder(self.folder) == True):
+        self.__writeConfig('Server', 'user', user[0])
+      else:
+        print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
     else:
-      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def setServer(self, server):
-    if (CheckFolder(self.folder) == True):
-      self.__writeConfig('Server', 'server', server[0])
+    if (len(server) != 0):
+      if (CheckFolder(self.folder) == True):
+        self.__writeConfig('Server', 'server', server[0])
+      else:
+        print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
     else:
-      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def setPort(self, port):
-    if (CheckFolder(self.folder) == True):
-      self.__writeConfig('Server', 'port', port[0])
+    if (len(port) != 0):
+      if (CheckFolder(self.folder) == True):
+        self.__writeConfig('Server', 'port', port[0])
+      else:
+        print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
     else:
-      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def setPassword(self, password):
-    print("PASSWORD: " + password[0])
-    if (CheckFolder(self.folder) == True):
-      self.__writeConfig('Server', 'password', password[0])
+    if (len(password) != 0):
+      if (CheckFolder(self.folder) == True):
+        self.__writeConfig('Server', 'password', password[0])
+      else:
+        print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
     else:
-      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def setUploadFolder(self, folder):
-    if (CheckFolder(self.folder) == True):
-      self.__writeConfig('Local', 'copy_dir', folder[0])
+    if (len(folder) != 0):
+      if (CheckFolder(self.folder) == True):
+        self.__writeConfig('Local', 'copy_dir', folder[0])
+      else:
+        print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
     else:
-      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def setDownloadFolder(self, folder):
-    if (CheckFolder(self.folder) == True):
-      self.__writeConfig('Local', 'dest', folder[0])
+    if (len(folder) != 0):
+      if (CheckFolder(self.folder) == True):
+        self.__writeConfig('Local', 'dest', folder[0])
+      else:
+        print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
     else:
-      print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
+
+  def setTimeOut(self, timeout):
+    if (len(timeout) != 0):
+      if (CheckFolder(self.folder) == True):
+        self.__writeConfig('Config', 'time_out', timeout[0])
+      else:
+        print(color.TFC + "tfc " + color.WARNING + "was not initialized on this folder")
+    else:
+      print(color.TFC + "tfc " + color.WARNING + "not arguments recived")
 
   def default(self):
     if(self.readConfig()):
