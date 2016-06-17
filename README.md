@@ -1,5 +1,5 @@
 ![Logo](http://i63.tinypic.com/16aa1km.png) 
-# TFC (ALPHA)
+# TFC
 
 Tiny FTP Client is an easy to use command line ftp conexion tool.
 
@@ -30,7 +30,7 @@ TFC allows you to control every aspect of an FTP server from your command line.
 | pull     |                 | Downloads all content from server                          |
 |          | -f (arg)        | Downloads an especific folder from server                  |
 |----------|-----------------|------------------------------------------------------------|
-| config   |                 | Shows all configuration info                               |
+| config   |                 | Shows and sets all configuration info                      |
 |          | -u (arg)        | Sets Default user for FTP conexion                         |
 |          | -s (arg)        | Sets Default server for FTP conexion                       |
 |          | -p (arg)        | Sets Default port for FTP conexion                         |
@@ -56,14 +56,29 @@ TFC allows you to control every aspect of an FTP server from your command line.
 ###Getting Started:
 
 tfc init
+
 tfc config -u (USER)
+
 tfc config -s (SERVER)
+
 tfc config -p (PORT)
+
 tfc config -ps (PASSWORD)
 
 tfc push -f (file/folder)
+
 tfc pull -f (file/folder)
 
-Or
+###Example:
 
-Edit config/config.ini to change full configuration
+tfc init 
+
+tfc config -u USER -s SERVER -p PORT
+
+tfc push -f foo.txt
+
+tfc pull -f foo.txt
+
+tfc (command) -h for more info
+
+tfc (command) -h (Arg) for more specific info
