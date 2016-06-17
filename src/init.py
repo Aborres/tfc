@@ -23,8 +23,8 @@ class Init(Command):
     self.commands_function["-help"] = self.help
 
   def default(self):
-    self.checkCreateFolder()
-    CreateDB(self.db_path)
+    if (self.checkCreateFolder() == True):
+	  CreateDB(self.db_path)
 
   def initForce(self, arg):
     self.erase(None)
