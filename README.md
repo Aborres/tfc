@@ -6,7 +6,7 @@ Tiny FTP Client is an easy to use command line ftp conexion tool.
 TFC allows you to control every aspect of an FTP server from your command line.
 
 
-### Commands:
+### Commands
 
 1. init
 2. push
@@ -53,7 +53,7 @@ TFC allows you to control every aspect of an FTP server from your command line.
 |          | -db             | Purgues file database                                      |
 |----------|:---------------:|-----------------------------------------------------------:|
 
-###Getting Started:
+###Getting Started
 
 tfc init
 
@@ -69,7 +69,7 @@ tfc push -f (file/folder)
 
 tfc pull -f (file/folder)
 
-###Example:
+###Example
 
 tfc init 
 
