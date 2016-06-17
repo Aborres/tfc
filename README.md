@@ -79,6 +79,12 @@ tfc push -f foo.txt
 
 tfc pull -f foo.txt
 
+###Help
+
 tfc (command) -h for more info
 
 tfc (command) -h (Arg) for more specific info
+
+###Credits
+
+Developed by Jose Manuel Naranjo.
